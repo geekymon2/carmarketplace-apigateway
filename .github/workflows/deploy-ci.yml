@@ -1,0 +1,21 @@
+name: deploy ci
+on:
+  workflow_dispatch:
+jobs:
+  deployservice:
+    environment: ci
+    name: deploy CI
+    runs-on: [self-hosted, ci]
+    steps:
+    - name: checkout root
+      uses: actions/checkout@v2
+      with:
+        repository: geekymon2/carmarketplace
+        path: root    
+    - name: checkout service
+      uses: actions/checkout@v2 
+      with:
+        path: service
+    - name: run deployment script
+      run: ./deploy.sh ci carinfodbci  ${{ secrets.DB_PASSWORD }}
+      working-directory: ./service
