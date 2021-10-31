@@ -1,4 +1,4 @@
-package com.geekymon2.carmarketplace.carorchestrator.models;
+package com.geekymon2.carmarketplace.apigateway.models;
 
 public class Car {
     long carId;

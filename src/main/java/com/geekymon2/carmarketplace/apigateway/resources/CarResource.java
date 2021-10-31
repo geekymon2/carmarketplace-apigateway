@@ -1,6 +1,6 @@
-package com.geekymon2.carmarketplace.carorchestrator.resources;
+package com.geekymon2.carmarketplace.apigateway.resources;
 
-import com.geekymon2.carmarketplace.carorchestrator.models.Car;
+import com.geekymon2.carmarketplace.apigateway.models.Car;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
