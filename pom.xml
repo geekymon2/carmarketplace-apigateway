@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
-	<artifactId>car-orchestrator</artifactId>
+	<artifactId>car-apigateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>car-orchestrator</name>
-	<description>Car Marketplace Orchestrator</description>
+	<name>car-apigateway</name>
+	<description>Car Marketplace API Gateway</description>
 	<dependencies>
 		<dependency>
 			<groupId>io.springfox</groupId>
