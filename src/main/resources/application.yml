@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: car-listing-service
+  config:
+    import: optional:configserver:http://localhost:8888    
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: false
+      retry:
+        maxAttempts: 20
+
+eureka:
+  client:
+    enabled: false
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+
+server:
+  servlet:
+    context-path: /api/gateway
