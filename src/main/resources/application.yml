@@ -4,6 +4,12 @@ spring:
   config:
     import: optional:configserver:http://localhost:8888    
   cloud:
+    gateway:
+      routes:
+        - id: car-info-service
+          uri: https://localhost
+          predicates:
+          - Path=/carinfo/api/**
     config:
       uri: http://localhost:8888
       fail-fast: false

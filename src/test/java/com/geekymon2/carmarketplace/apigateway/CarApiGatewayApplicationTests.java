@@ -1,10 +1,10 @@
-package com.geekymon2.carmarketplace.carorchestrator;
+package com.geekymon2.carmarketplace.apigateway;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CarOrchestratorApplicationTests {
+class CarApiGatewayApplicationTests {
 
 	@Test
 	void contextLoads() {
