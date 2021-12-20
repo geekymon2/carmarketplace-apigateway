@@ -38,6 +38,8 @@ jobs:
         distribution: 'adopt'
         cache: maven 
     - name: build root
+      run: mvn install --file root/pom.xml -N
+    - name: build core
       run: mvn install --file root/pom.xml
     - name: build service
       run: mvn -B test package jacoco:report --file service/pom.xml -Dspring.profiles.active=test
