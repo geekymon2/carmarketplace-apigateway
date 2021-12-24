@@ -3,7 +3,7 @@ package com.geekymon2.carmarketplace.apigateway.swagger;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.cloud.gateway.discovery.DiscoveryClientRouteDefinitionLocator;
+import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -18,9 +18,9 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
 
     public static final String EUREKA_SUB_PRIX = "CompositeDiscoveryClient_";
 
-    private final DiscoveryClientRouteDefinitionLocator routeLocator;
+    private final RouteDefinitionLocator routeLocator;
 
-    public SwaggerProvider(DiscoveryClientRouteDefinitionLocator routeLocator) {
+    public SwaggerProvider(RouteDefinitionLocator routeLocator) {
         this.routeLocator = routeLocator;
     }
 

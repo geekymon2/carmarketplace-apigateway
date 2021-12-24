@@ -7,6 +7,10 @@ spring:
     import: optional:configserver:http://localhost:8888    
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
       routes:
         - id: car-info-service
           uri: http://localhost:8082/
@@ -20,11 +24,11 @@ spring:
       uri: http://localhost:8888
       fail-fast: false
       retry:
-        maxAttempts: 20
+        maxAttempts: 20   
 
 eureka:
   client:
-    enabled: false
+    enabled: true
     serviceUrl:
       defaultZone: http://localhost:8761/eureka
   instance:
