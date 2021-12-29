@@ -31,7 +31,7 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
         routeLocator.getRouteDefinitions().subscribe(routeDefinition -> {
             String resourceName = routeDefinition.getId().substring(EUREKA_SUB_PRIX.length());
             String location = routeDefinition.getPredicates().get(0).getArgs().get("pattern").replace("/**", API_URI);
-            resources.add(swaggerResource(resourceName, location));
+            resources.add(swaggerResource(resourceName, "/api" + location));
         });
         return resources;
     }

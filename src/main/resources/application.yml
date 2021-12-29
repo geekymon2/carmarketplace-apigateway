@@ -1,5 +1,7 @@
 server:
   port: 8008
+  servlet:
+    context-path: /api/api-gateway
 spring:
   application:
     name: api-gateway
@@ -15,7 +17,7 @@ spring:
         - id: car-info-service
           uri: http://localhost:8082/
           predicates:
-          - Path=/api/car-info/**
+          - Path=/api/car-info-service/**
         - id: car-listing-service
           uri: http://localhost:8081/
           predicates:
