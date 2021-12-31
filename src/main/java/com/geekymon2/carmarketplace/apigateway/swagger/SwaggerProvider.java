@@ -10,11 +10,13 @@ import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
 
 @Component
 @Primary
+@Slf4j
 public class SwaggerProvider implements SwaggerResourcesProvider {
     
     public static final String API_URI = "/v2/api-docs";
@@ -34,12 +36,14 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
         final String GATEWAY_STRING = "/" + appConfig.getAppName();
         List<SwaggerResource> resources = new ArrayList<>();
         routeLocator.getRouteDefinitions().subscribe(routeDefinition -> {
+            log.info("Discovered route definition: {}", routeDefinition.getId());
             if (routeDefinition.getId().contains(EUREKA_SUB_PRIX)) {
                 String resourceName = routeDefinition.getId().substring(EUREKA_SUB_PRIX.length());
                 String location = routeDefinition.getPredicates().get(0).getArgs().get("pattern").replace("/**", API_URI);
                 if (location.contains(GATEWAY_STRING)) {
                     location = location.replace(GATEWAY_STRING, StringUtils.EMPTY);
                 }
+                log.info("Adding swagger resouce: {}", resourceName);
                 resources.add(swaggerResource(resourceName, location));
             }});
             
