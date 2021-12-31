@@ -34,6 +34,7 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
     
     public List<SwaggerResource> get() {
         final String GATEWAY_STRING = "/" + appConfig.getAppName();
+        log.info("API Gateway App: {}", GATEWAY_STRING);
         List<SwaggerResource> resources = new ArrayList<>();
         routeLocator.getRouteDefinitions().subscribe(routeDefinition -> {
             log.info("Discovered route definition: {}", routeDefinition.getId());
