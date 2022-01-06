@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n" />
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+    <logger name="com.geekymon2.carmarketplace.carmarketplace-apigateway" level="trace" additivity="false">
+        <appender-ref ref="console" />
+    </logger>
+    <root level="info">
+        <appender-ref ref="console"/>
+    </root>
+</configuration>
