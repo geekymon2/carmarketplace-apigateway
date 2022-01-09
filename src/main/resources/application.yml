@@ -3,16 +3,10 @@ server:
 spring:
   application:
     name: api-gateway
-  webflux:
-    basePath: /api
   config:
     import: optional:configserver:http://localhost:8888    
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true
-          lowerCaseServiceId: true
       routes:
         - id: car-info-service
           uri: http://localhost:8082/
