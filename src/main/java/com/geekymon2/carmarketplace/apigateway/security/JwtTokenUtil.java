@@ -1,31 +1,51 @@
 package com.geekymon2.carmarketplace.apigateway.security;
 
-import java.security.Key;
 import java.util.Date;
-import org.springframework.beans.factory.annotation.Value;
+
+import com.geekymon2.carmarketplace.apigateway.config.JwtConfig;
+import com.geekymon2.carmarketplace.apigateway.exception.JwtTokenMalformedException;
+import com.geekymon2.carmarketplace.apigateway.exception.JwtTokenMissingException;
+import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-
 
 @Component
 public class JwtTokenUtil {
 
-	private Key key;
+	@Autowired
+	private JwtConfig config;
 
-	@Value("${jwt.secret}")
-	private String secret;
-
-	public Claims getAllClaimsFromToken(String token) {
-		return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+	public Claims getClaims(final String token) {
+		try {
+			return Jwts.parser().setSigningKey(config.getSecret()).parseClaimsJws(token).getBody();
+		} catch (Exception e) {
+			System.out.println(e.getMessage() + " => " + e);
+		}
+		return null;
 	}
 
-	private boolean isTokenExpired(String token) {
-		return this.getAllClaimsFromToken(token).getExpiration().before(new Date());
+	public String generateToken(String id) {
+		Claims claims = Jwts.claims().setSubject(id);
+		long nowMillis = System.currentTimeMillis();
+		long expMillis = nowMillis + config.getValidity();
+		Date exp = new Date(expMillis);
+		return Jwts.builder().setClaims(claims).setIssuedAt(new Date(nowMillis)).setExpiration(exp)
+				.signWith(SignatureAlgorithm.HS512, config.getSecret()).compact();
 	}
 
-	public boolean isInvalid(String token) {
-		return this.isTokenExpired(token);
+	public void validateToken(final String token) throws JwtTokenMalformedException, JwtTokenMissingException {
+		try {
+			Jwts.parser().setSigningKey(config.getSecret()).parseClaimsJws(token);
+		} catch (SignatureException ex) {
+			throw new JwtTokenMalformedException("Invalid JWT signature");
+		} catch (MalformedJwtException ex) {
+			throw new JwtTokenMalformedException("Invalid JWT token");
+		} catch (ExpiredJwtException ex) {
+			throw new JwtTokenMalformedException("Expired JWT token");
+		} catch (UnsupportedJwtException ex) {
+			throw new JwtTokenMalformedException("Unsupported JWT token");
+		} catch (IllegalArgumentException ex) {
+			throw new JwtTokenMissingException("JWT claims string is empty.");
+		}
 	}
 }

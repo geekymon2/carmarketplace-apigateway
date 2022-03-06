@@ -20,9 +20,4 @@ public class AppConfig {
                 .paths(PathSelectors.any())
                 .build();
     }
-
-    @Bean
-    public RouteLocator myRoutes(RouteLocatorBuilder builder) {
-        return builder.routes().build();
-    }   
 }

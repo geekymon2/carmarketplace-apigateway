@@ -32,7 +32,7 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
             log.info("Discovered route definition: {}", routeDefinition.getId());
             String resourceName = routeDefinition.getId();
             String location = routeDefinition.getPredicates().get(0).getArgs().get("_genkey_0").replace("/**", API_URI);
-            log.info("Adding swagger resouce: {} with location {}", resourceName, location);
+            log.info("Adding swagger resource: {} with location {}", resourceName, location);
             resources.add(swaggerResource(resourceName, location));
         });
         

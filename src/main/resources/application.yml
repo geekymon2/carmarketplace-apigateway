@@ -12,10 +12,14 @@ spring:
           uri: http://localhost:8082/
           predicates:
           - Path=/api/car-info-service/**
+          filters:
+            - AuthenticationFilter
         - id: car-listing-service
           uri: http://localhost:8081/
           predicates:
-          - Path=/api/car-listing-service/**          
+          - Path=/api/car-listing-service/**
+          filters:
+            - AuthenticationFilter
     config:
       uri: http://localhost:8888
       fail-fast: false
@@ -34,4 +38,6 @@ logging:
   level:
     '[org.springframework.cloud.gateway]': TRACE
 
-jwt.secret: testing
+jwt:
+  secret: testing
+  validity: 30000
