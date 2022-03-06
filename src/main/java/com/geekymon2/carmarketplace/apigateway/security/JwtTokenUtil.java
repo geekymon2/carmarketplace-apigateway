@@ -3,6 +3,7 @@ package com.geekymon2.carmarketplace.apigateway.security;
 import java.util.Date;
 
 import com.geekymon2.carmarketplace.apigateway.config.JwtConfig;
+import com.geekymon2.carmarketplace.apigateway.exception.JwtTokenIncorrectStructureException;
 import com.geekymon2.carmarketplace.apigateway.exception.JwtTokenMalformedException;
 import com.geekymon2.carmarketplace.apigateway.exception.JwtTokenMissingException;
 import io.jsonwebtoken.*;
@@ -33,9 +34,14 @@ public class JwtTokenUtil {
 				.signWith(SignatureAlgorithm.HS512, config.getSecret()).compact();
 	}
 
-	public void validateToken(final String token) throws JwtTokenMalformedException, JwtTokenMissingException {
+	public void validateToken(final String header) throws JwtTokenMalformedException, JwtTokenMissingException {
 		try {
-			Jwts.parser().setSigningKey(config.getSecret()).parseClaimsJws(token);
+			String[] parts = header.split(" ");
+			if (parts.length != 2 || !"Bearer".equals(parts[0])) {
+				throw new JwtTokenIncorrectStructureException("Incorrect Authentication Structure");
+			}
+
+			Jwts.parser().setSigningKey(config.getSecret()).parseClaimsJws(parts[1]);
 		} catch (SignatureException ex) {
 			throw new JwtTokenMalformedException("Invalid JWT signature");
 		} catch (MalformedJwtException ex) {

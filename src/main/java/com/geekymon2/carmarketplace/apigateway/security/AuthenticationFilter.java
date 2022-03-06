@@ -8,11 +8,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Objects;
 
 
 @RefreshScope
 @Component
+@Slf4j
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
 
 	public AuthenticationFilter(RouterValidator routerValidator, JwtTokenUtil jwtTokenUtil) {
@@ -34,19 +38,13 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 				}
 
 				String authHeader = Objects.requireNonNull(exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION)).get(0);
-				String[] parts = authHeader.split(" ");
-
-				if (parts.length != 2 || !"Bearer".equals(parts[0])) {
-					throw new RuntimeException("Incorrect auth structure");
-				}
-
 				try {
-					jwtTokenUtil.validateToken(parts[1]);
+					jwtTokenUtil.validateToken(authHeader);
 				}
 				catch (Exception ex) {
-					ex.printStackTrace();
+					log.error("Error Validating Authentication Header", ex);
 					ServerHttpResponse response = exchange.getResponse();
-					response.setStatusCode(HttpStatus.BAD_REQUEST);
+					response.setStatusCode(HttpStatus.UNAUTHORIZED);
 					return response.setComplete();
 				}
 			}
