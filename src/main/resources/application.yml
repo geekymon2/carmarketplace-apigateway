@@ -40,7 +40,7 @@ logging:
 
 jwt:
   secret: testing
-  validity: 30000
+  validity: 20
 
   spring:
     main:

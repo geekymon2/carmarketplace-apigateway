@@ -6,7 +6,13 @@ import com.geekymon2.carmarketplace.apigateway.config.JwtConfig;
 import com.geekymon2.carmarketplace.apigateway.exception.JwtTokenIncorrectStructureException;
 import com.geekymon2.carmarketplace.apigateway.exception.JwtTokenMalformedException;
 import com.geekymon2.carmarketplace.apigateway.exception.JwtTokenMissingException;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +34,7 @@ public class JwtTokenUtil {
 	public String generateToken(String id) {
 		Claims claims = Jwts.claims().setSubject(id);
 		long nowMillis = System.currentTimeMillis();
-		long expMillis = nowMillis + config.getValidity();
+		long expMillis = nowMillis + config.getValidity() * 1000 * 60;
 		Date exp = new Date(expMillis);
 		return Jwts.builder().setClaims(claims).setIssuedAt(new Date(nowMillis)).setExpiration(exp)
 				.signWith(SignatureAlgorithm.HS512, config.getSecret()).compact();
