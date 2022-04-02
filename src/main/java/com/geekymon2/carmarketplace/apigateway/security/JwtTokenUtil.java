@@ -22,15 +22,6 @@ public class JwtTokenUtil {
 	@Autowired
 	private JwtConfig config;
 
-	public Claims getClaims(final String token) {
-		try {
-			return Jwts.parser().setSigningKey(config.getSecret()).parseClaimsJws(token).getBody();
-		} catch (Exception e) {
-			System.out.println(e.getMessage() + " => " + e);
-		}
-		return null;
-	}
-
 	public String generateToken(String id) {
 		Claims claims = Jwts.claims().setSubject(id);
 		long nowMillis = System.currentTimeMillis();
