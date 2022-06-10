@@ -13,14 +13,16 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JwtTokenUtil {
 
-	@Autowired
-	private JwtConfig config;
+	private final JwtConfig config;
+
+	public JwtTokenUtil(JwtConfig config) {
+		this.config = config;
+	}
 
 	public String generateToken(String id) {
 		Claims claims = Jwts.claims().setSubject(id);
