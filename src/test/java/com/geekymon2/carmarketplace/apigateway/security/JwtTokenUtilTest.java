@@ -26,7 +26,7 @@ class JwtTokenUtilTest {
     }
 
     @Test
-    @DisplayName("Generate a valid token test.")
+    @DisplayName("Generate a valid JWT authentication token test.")
     void generateToken_ValidConfig() {
         Mockito.when(config.getSecret()).thenReturn("testing");
         Mockito.when(config.getValidity()).thenReturn((long)20);

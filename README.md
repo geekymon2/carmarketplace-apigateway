@@ -10,7 +10,9 @@ Microservices App for Car Marketplace
 
 **Car Marketplace Api Gateway**
 
-This service provides an entry point for all API interfaces for the UI client.
+* This service provides an entry point for all API interfaces for the UI client.
+* Request Validation through JWT token authentication
+* Swagger API documentation Agreggation for various services
 
 ## Documentation
 
