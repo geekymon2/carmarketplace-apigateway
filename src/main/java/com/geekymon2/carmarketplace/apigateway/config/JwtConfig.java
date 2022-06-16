@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 public class JwtConfig {
     private String secret;
     private long validity;
+    private boolean authDisabled;
 
     public void setSecret(String secret) {
         this.secret = secret;
@@ -24,4 +25,13 @@ public class JwtConfig {
     public long getValidity() {
         return validity;
     }
+
+    public boolean isAuthDisabled() {
+        return authDisabled;
+    }
+
+    public void setAuthDisabled(boolean authDisabled) {
+        this.authDisabled = authDisabled;
+    }
+
 }

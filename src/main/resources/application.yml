@@ -41,6 +41,8 @@ logging:
 jwt:
   secret: testing
   validity: 20
+  authDisabled: false
+
 
   spring:
     main:

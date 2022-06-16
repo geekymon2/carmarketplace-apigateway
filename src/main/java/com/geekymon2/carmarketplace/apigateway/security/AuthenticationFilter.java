@@ -1,5 +1,6 @@
 package com.geekymon2.carmarketplace.apigateway.security;
 
+import com.geekymon2.carmarketplace.apigateway.config.JwtConfig;
 import com.geekymon2.carmarketplace.apigateway.models.ErrorResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -25,20 +26,22 @@ import java.util.Objects;
 @Slf4j
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
 
-	public AuthenticationFilter(RouterValidator routerValidator, JwtTokenUtil jwtTokenUtil) {
-		super(Config.class);
-		this.routerValidator = routerValidator;
-		this.jwtTokenUtil = jwtTokenUtil;
-	}
-
 	@Autowired
 	private final RouterValidator routerValidator;
 	private final JwtTokenUtil jwtTokenUtil;
+	private final JwtConfig jwtConfig;
+
+	public AuthenticationFilter(RouterValidator routerValidator, JwtTokenUtil jwtTokenUtil, JwtConfig config) {
+		super(Config.class);
+		this.routerValidator = routerValidator;
+		this.jwtTokenUtil = jwtTokenUtil;
+		this.jwtConfig = config;
+	}
 
 	@Override
 	public GatewayFilter apply(Config config) {
 		return ((exchange, chain) -> {
-			if (routerValidator.isSecured.test(exchange.getRequest())) {
+			if (routerValidator.isSecured.test(exchange.getRequest()) && !jwtConfig.isAuthDisabled()) {
 				if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
 					throw new RuntimeException("Missing Authorisation Header");
 				}
