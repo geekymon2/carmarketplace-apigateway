@@ -20,6 +20,12 @@ spring:
           - Path=/api/car-listing-service/**
           filters:
             - AuthenticationFilter
+        - id: car-apigateway
+          uri: http://localhost:8008/
+          predicates:
+          - Path=/**
+          filters:
+            - AuthenticationFilter
     config:
       uri: http://localhost:8888
       fail-fast: false
@@ -41,7 +47,7 @@ logging:
 jwt:
   secret: testing
   validity: 20
-  authDisabled: false
+  authDisabled: true
 
 
   spring:
