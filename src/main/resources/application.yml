@@ -23,14 +23,14 @@ spring:
         - id: car-apigateway
           uri: http://localhost:8008/
           predicates:
-          - Path=/**
+          - Path=/api-gateway/**
           filters:
             - AuthenticationFilter
     config:
       uri: http://localhost:8888
       fail-fast: false
       retry:
-        maxAttempts: 20   
+        maxAttempts: 20
 
 eureka:
   client:
@@ -48,8 +48,3 @@ jwt:
   secret: testing
   validity: 20
   authDisabled: true
-
-
-  spring:
-    main:
-      web-application-type: reactive

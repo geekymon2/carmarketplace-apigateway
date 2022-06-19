@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.geekymon2.carmarketplace.apigateway.constants.Constants.API_GATEWAY_PREDICATE;
+
 @RestController
 public class JwtAuthenticationController {
 
@@ -28,14 +30,19 @@ public class JwtAuthenticationController {
 		this.jwtTokenUtil = jwtTokenUtil;
 	}
 
-	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
+	/**
+	 * * *** NOTE: ***
+	 * * Api Gateway should match predicate
+	 * * path to be discoverable in swagger
+	 */
+	@RequestMapping(value = API_GATEWAY_PREDICATE + "/authenticate", method = RequestMethod.POST)
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) {
 		AuthenticationStatus status = authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
 		if (!status.getIsAuthenticated()) {
 			List<String> details = new ArrayList<>();
 			details.add(status.getMessage());
-			ErrorResponseDto error = new ErrorResponseDto(new Date(), HttpStatus.UNAUTHORIZED.value(), "UNAUTHORIZED", details, "aa");
+			ErrorResponseDto error = new ErrorResponseDto(new Date(), HttpStatus.UNAUTHORIZED.value(), "UNAUTHORIZED", details, "uri");
 			return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
 		}
 
