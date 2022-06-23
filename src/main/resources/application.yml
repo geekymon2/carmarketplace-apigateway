@@ -8,6 +8,12 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: user-service
+          uri: http://localhost:8090/
+          predicates:
+            - Path=/api/user-service/**
+          filters:
+            - AuthenticationFilter
         - id: car-info-service
           uri: http://localhost:8082/
           predicates:
