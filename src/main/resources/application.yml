@@ -9,7 +9,7 @@ spring:
     gateway:
       routes:
         - id: user-service
-          uri: http://localhost:8090/
+          uri: http://localhost:8084/
           predicates:
             - Path=/api/user-service/**
           filters:
