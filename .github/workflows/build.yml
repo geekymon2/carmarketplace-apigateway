@@ -1,4 +1,4 @@
-name: build and deploy
+name: build
 
 on:
   push:
@@ -72,4 +72,4 @@ jobs:
         DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         DOCKERHUB_REPOSITORY: geekymon2/${{ steps.docker.outputs.IMAGE_NAME }}   
-        README_FILEPATH: service/README.md   
+        README_FILEPATH: service/README.md
