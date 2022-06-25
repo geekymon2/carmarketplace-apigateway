@@ -2,6 +2,7 @@ package com.geekymon2.carmarketplace.apigateway.controller;
 
 import com.geekymon2.carmarketplace.apigateway.models.JwtRequest;
 import com.geekymon2.carmarketplace.apigateway.security.JwtTokenUtil;
+import com.geekymon2.carmarketplace.apigateway.serviceimpl.AuthenticationServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,23 +17,23 @@ class JwtAuthenticationControllerTest {
     private final JwtAuthenticationController controller;
 
     @Autowired
-    public JwtAuthenticationControllerTest(JwtTokenUtil tokenUtil) {
-        this.controller = new JwtAuthenticationController(tokenUtil);
+    public JwtAuthenticationControllerTest(AuthenticationServiceImpl service) {
+        this.controller = new JwtAuthenticationController(service);
     }
 
     @Test
     @DisplayName("Create authentication controller unauthorized test.")
-    void createAuthenticationTokenTest_Unauthorized() throws Exception {
+    void createAuthenticationTokenTest_Unauthorized() {
         JwtRequest request = new JwtRequest("BLAH", "BLAH");
-        ResponseEntity<?> actual = controller.createAuthenticationToken(request);
+        ResponseEntity<?> actual = controller.authenticate(request);
         assertEquals(HttpStatus.UNAUTHORIZED, actual.getStatusCode());
     }
 
     @Test
     @DisplayName("Create authentication controller authorized test.")
-    void createAuthenticationTokenTest_Authorized() throws Exception {
+    void createAuthenticationTokenTest_Authorized() {
         JwtRequest request = new JwtRequest("foo", "foo");
-        ResponseEntity<?> actual = controller.createAuthenticationToken(request);
+        ResponseEntity<?> actual = controller.authenticate(request);
         assertEquals(HttpStatus.OK, actual.getStatusCode());
     }
 }
