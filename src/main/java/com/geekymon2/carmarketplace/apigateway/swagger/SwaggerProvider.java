@@ -3,7 +3,6 @@ package com.geekymon2.carmarketplace.apigateway.swagger;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.geekymon2.carmarketplace.apigateway.constants.Constants;
 import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
@@ -27,17 +26,11 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
     
     @Override
     public List<SwaggerResource> get() {
-        String gatewayPredicate = "/" + Constants.API_GATEWAY_PREDICATE;
         List<SwaggerResource> resources = new ArrayList<>();
         routeLocator.getRouteDefinitions().subscribe(routeDefinition -> {
             log.info("Discovered route definition: {}", routeDefinition.getId());
             String resourceName = routeDefinition.getId();
             String location = routeDefinition.getPredicates().get(0).getArgs().get("_genkey_0").replace("/**", API_URI);
-
-            if (location.contains(gatewayPredicate)) {
-                location = location.replace(gatewayPredicate, "");
-            }
-
             log.info("Adding swagger resource: {} with location {}", resourceName, location);
             resources.add(swaggerResource(resourceName, location));
         });
