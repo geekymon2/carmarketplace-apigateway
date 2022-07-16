@@ -20,10 +20,6 @@ spring:
           uri: http://localhost:8081/
           predicates:
           - Path=/api/car-listing-service/**
-        - id: car-apigateway
-          uri: http://localhost:8008/
-          predicates:
-          - Path=/api-gateway/**
     config:
       uri: http://localhost:8888
       fail-fast: false
