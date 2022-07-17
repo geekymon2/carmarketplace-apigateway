@@ -1,14 +1,17 @@
 package com.geekymon2.carmarketplace.apigateway.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.AbstractSwaggerUiConfigProperties;
 import org.springdoc.core.GroupedOpenApi;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springdoc.core.SwaggerUiConfigProperties;
 import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Configuration
 @Slf4j
@@ -22,9 +25,9 @@ public class AppConfig {
     }
 
     @Bean
-    public List<GroupedOpenApi> apis() {
+    public List<GroupedOpenApi> apis(SwaggerUiConfigProperties swaggerUiConfigProperties) {
         List<GroupedOpenApi> groups = new ArrayList<>();
-
+        Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> urls = new HashSet<>();
 
         locator.getRouteDefinitions().subscribe(routeDefinition -> {
             log.info("Discovered route definition: {}", routeDefinition.getId());
@@ -37,9 +40,11 @@ public class AppConfig {
                     .pathsToMatch("/" + location + "/**")
                     .build();
 
+            urls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl(resourceName, location, resourceName));
             groups.add(api);
         });
 
+        swaggerUiConfigProperties.setUrls(urls);
         return groups;
     }
 }

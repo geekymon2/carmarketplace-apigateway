@@ -34,6 +34,8 @@ eureka:
   instance:
     prefer-ip-address: true
 
-logging:
-  level:
-    '[org.springframework.cloud.gateway]': TRACE
+springdoc:
+  webjars:
+    prefix: /api
+  cache:
+    disabled: true
