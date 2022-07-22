@@ -25,8 +25,8 @@ public class AppConfig {
     }
 
     @Bean
-    public List<GroupedOpenApi> apis(SwaggerUiConfigProperties swaggerUiConfigProperties) {
-        List<GroupedOpenApi> groups = new ArrayList<>();
+    public GroupedOpenApi apis(SwaggerUiConfigProperties swaggerUiConfigProperties) {
+
         Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> urls = new HashSet<>();
 
         locator.getRouteDefinitions().subscribe(routeDefinition -> {
@@ -34,17 +34,14 @@ public class AppConfig {
             String resourceName = routeDefinition.getId();
             String location = routeDefinition.getPredicates().get(0).getArgs().get("_genkey_0").replace("/**", API_URI);
             log.info("Adding swagger resource: {} with location {}", resourceName, location);
-
-            GroupedOpenApi api = GroupedOpenApi.builder()
-                    .group(resourceName)
-                    .pathsToMatch("/" + location + "/**")
-                    .build();
-
             urls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl(resourceName, location, resourceName));
-            groups.add(api);
         });
 
         swaggerUiConfigProperties.setUrls(urls);
-        return groups;
+
+        return GroupedOpenApi.builder()
+                .group("resource")
+                .pathsToMatch("/api/**")
+                .build();
     }
 }
