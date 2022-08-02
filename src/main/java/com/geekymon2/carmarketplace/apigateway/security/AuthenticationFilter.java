@@ -43,7 +43,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 		return ((exchange, chain) -> {
 			if (routerValidator.isSecured.test(exchange.getRequest()) && !jwtConfig.isAuthDisabled()) {
 				if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-					throw new RuntimeException("Missing Authorisation Header");
+					throw new RuntimeException("Missing Authorization Header");
 				}
 
 				String authHeader = Objects.requireNonNull(exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION)).get(0);
