@@ -1,41 +1,11 @@
-server:
-  port: 8008
 spring:
   application:
     name: api-gateway
   config:
     import: optional:configserver:http://localhost:8888    
   cloud:
-    gateway:
-      routes:
-        - id: user-service
-          uri: http://localhost:8084/
-          predicates:
-            - Path=/api/user-service/**
-        - id: car-info-service
-          uri: http://localhost:8082/
-          predicates:
-          - Path=/api/car-info-service/**
-        - id: car-listing-service
-          uri: http://localhost:8081/
-          predicates:
-          - Path=/api/car-listing-service/**
     config:
       uri: http://localhost:8888
       fail-fast: false
       retry:
         maxAttempts: 20
-
-eureka:
-  client:
-    enabled: true
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka
-  instance:
-    prefer-ip-address: true
-
-springdoc:
-  webjars:
-    prefix: /api
-  cache:
-    disabled: true
