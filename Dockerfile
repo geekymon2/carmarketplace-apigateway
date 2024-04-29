@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk11
+FROM azul/zulu-openjdk:17-latest
 LABEL maintainer="geekymon2@gmail.com"
 ARG ARTIFACT_NAME
 EXPOSE 8080
