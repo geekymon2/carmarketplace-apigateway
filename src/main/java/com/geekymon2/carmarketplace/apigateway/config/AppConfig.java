@@ -1,9 +1,10 @@
 package com.geekymon2.carmarketplace.apigateway.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springdoc.core.AbstractSwaggerUiConfigProperties;
-import org.springdoc.core.GroupedOpenApi;
-import org.springdoc.core.SwaggerUiConfigProperties;
+
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springdoc.core.properties.AbstractSwaggerUiConfigProperties;
+import org.springdoc.core.properties.SwaggerUiConfigProperties;
 import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,11 @@ public class AppConfig {
 
     public AppConfig(RouteDefinitionLocator locator) {
         this.locator = locator;
+    }
+
+    @Bean
+    public SwaggerUiConfigProperties swaggerUiConfigProperties() {
+        return new SwaggerUiConfigProperties();
     }
 
     @Bean
