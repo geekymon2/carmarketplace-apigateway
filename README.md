@@ -12,7 +12,18 @@ Microservices App for Car Marketplace
 
 * This service provides an entry point for all API interfaces for the UI client.
 * Request Validation through JWT token authentication
-* Swagger API documentation Agreggation for various services
+* Swagger API documentation Aggregation for various services
+
+## Local Environment Setup
+* To run locally set the SPRING profile to "local".
+    * You can do this by setting environment variable SPRING_PROFILES_ACTIVE=local
+    * you can also set profile within the Intellij IDE
+* Swagger URL: http://localhost:8008/api/swagger-ui/index.html
+* Configuration is loaded from config-server
+
+## CI environment Setup
+* CI is configured to use profile "ci"
+* Swagger URL: TBD
 
 ## Documentation
 
