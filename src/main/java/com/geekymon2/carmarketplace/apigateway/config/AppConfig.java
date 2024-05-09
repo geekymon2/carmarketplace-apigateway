@@ -3,7 +3,6 @@ package com.geekymon2.carmarketplace.apigateway.config;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springdoc.core.models.GroupedOpenApi;
-import org.springdoc.core.models.GroupedOpenApi.Builder;
 import org.springdoc.core.properties.AbstractSwaggerUiConfigProperties;
 import org.springdoc.core.properties.SwaggerUiConfigProperties;
 import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
@@ -12,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Configuration
 @Slf4j
@@ -29,19 +27,17 @@ public class AppConfig {
     public GroupedOpenApi apis(SwaggerUiConfigProperties swaggerUiConfigProperties) {
 
         Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> urls = new HashSet<>();
-        AtomicReference<Builder> builder = new AtomicReference<>(GroupedOpenApi.builder());
-
         locator.getRouteDefinitions().subscribe(routeDefinition -> {
             log.info("Discovered route definition: {}", routeDefinition.getId());
             String resourceName = routeDefinition.getId();
             String location = routeDefinition.getPredicates().get(0).getArgs().get("_genkey_0").replace("/**", API_URI);
             log.info("Adding swagger resource: {} with location {}", resourceName, location);
-            builder.set(builder.get().group(resourceName).pathsToMatch(location));
             urls.add(new AbstractSwaggerUiConfigProperties.SwaggerUrl(resourceName, location, resourceName));
         });
-
         swaggerUiConfigProperties.setUrls(urls);
-
-        return builder.get().build();
+        return GroupedOpenApi.builder()
+                .group("api-gateway")
+                .pathsToMatch("/api/**")
+                .build();
     }
 }
