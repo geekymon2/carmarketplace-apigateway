@@ -23,7 +23,8 @@ Microservices App for Car Marketplace
 
 ## CI environment Setup
 * CI is configured to use profile "ci"
-* Swagger URL: TBD
+* CI environment is configured to run in local minikube cluster.
+* Swagger URL: http://$(minikube ip)/api/swagger-ui/index.html
 
 ## Documentation
 
