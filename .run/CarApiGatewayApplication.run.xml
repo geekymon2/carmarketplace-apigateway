@@ -2,6 +2,7 @@
   <configuration default="false" name="CarApiGatewayApplication" type="Application" factoryName="Application">
     <envs>
       <env name="SPRING__PROFILES_ACTIVE" value="local" />
+	  <env name="ENVIRONMENT" value="localhost" />
     </envs>
     <option name="MAIN_CLASS_NAME" value="com.geekymon2.carmarketplace.apigateway.CarApiGatewayApplication" />
     <module name="car-apigateway" />
