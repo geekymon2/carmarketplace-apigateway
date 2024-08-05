@@ -2,6 +2,10 @@ spring:
   application:
     name: api-gateway
   config:
+    activate:
+      on-profile:
+        - default
+        - ci
     import: optional:configserver:http://config-server:8888
   cloud:
     config:
