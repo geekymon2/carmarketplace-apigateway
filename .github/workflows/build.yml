@@ -39,7 +39,7 @@ jobs:
       - name: build service
         run: mvn -B test package jacoco:report --file service/pom.xml -Dspring.profiles.active=test
       - name: Upload to codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: service/coverage/reports/
@@ -68,3 +68,4 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: geekymon2/${{ steps.docker.outputs.IMAGE_NAME }}
           readme-filepath: ./service/README.md
+          short-description: ${{ github.event.repository.description }}
