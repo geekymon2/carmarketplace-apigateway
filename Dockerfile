@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk:17-latest
+FROM azul/zulu-openjdk:17.0.18-17.64-jre-headless
 LABEL maintainer="geekymon2@gmail.com"
 ARG ARTIFACT_NAME
 ARG IMAGE_VERSION
